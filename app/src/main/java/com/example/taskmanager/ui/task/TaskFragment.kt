@@ -37,6 +37,8 @@ class TaskFragment : Fragment() {
         }
         if (arguments !== null) {
             task = requireArguments().getSerializable("task") as Task
+        }else {
+            binding.btSave.text = getString(R.string.save)
         }
         fillTask()
     }
@@ -56,8 +58,6 @@ class TaskFragment : Fragment() {
         )
         if (task !== null) {
             updateTask()
-        } else {
-            saveTask()
         }
         App.db.taskDao().insert(data)
 
@@ -73,10 +73,5 @@ class TaskFragment : Fragment() {
         task!!.title = data.title
         task!!.desc = data.desc
         App.db.taskDao().update(task!!)
-    }
-
-    private fun saveTask() {
-        task = Task(data.id, data.title, data.desc)
-        App.db.taskDao().insert(task!!)
     }
 }
